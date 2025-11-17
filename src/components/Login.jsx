@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,8 +29,12 @@ export default function Login() {
       .then((data) => {
         if (data.success && data.token) {
           localStorage.setItem("authToken", data.token);
+          // notify other components and tabs about auth change
+          try { window.dispatchEvent(new Event('authChanged')); } catch (e) {}
           setSuccess("Login successful.");
           setForm({ email: "", password: "" });
+          // redirect to home
+          navigate('/');
         } else {
           setError(data.message || "Login failed.");
         }

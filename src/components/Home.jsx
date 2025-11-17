@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../App.css";
 
 function Home({ searchQuery }) {
   const [books, setBooks] = useState([]);
@@ -7,7 +8,7 @@ function Home({ searchQuery }) {
   const booksPerPage = 8;
 
   useEffect(() => {
-    fetch("http://localhost:3036/api/books") // or your API
+    fetch("http://localhost:3036/api/books")
       .then((res) => res.json())
       .then((data) => {
         setBooks(data);
@@ -19,14 +20,24 @@ function Home({ searchQuery }) {
       });
   }, []);
 
-  // Filter books by title or category
+  // Filter books by title, category or publisher
   const filteredBooks = books.filter((book) => {
-    const query = (searchQuery || "").toLowerCase();
+    if (!searchQuery) return true;
+    
+    const query = searchQuery.toLowerCase();
     const title = (book.title || "").toLowerCase();
     const category = (book.category || "").toLowerCase();
+    const publisher = (book.company || "").toLowerCase();
 
-    return title.includes(query) || category.includes(query);
+    return title.includes(query) || 
+           category.includes(query) || 
+           publisher.includes(query);
   });
+
+  // Reset to first page when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
@@ -46,41 +57,61 @@ function Home({ searchQuery }) {
         <p>Discover amazing books and explore new worlds!</p>
       </section>
 
-      {loading ? (
-        <p>Loading books...</p>
+            {loading ? (
+        <div className="loading">Loading books...</div>
       ) : (
         <>
+          {searchQuery && (
+            <div className="search-results-header">
+              <h2>Search Results for "{searchQuery}"</h2>
+              <p>{filteredBooks.length} books found</p>
+            </div>
+          )}
+          
           <div className="product-grid">
             {currentBooks.length > 0 ? (
               currentBooks.map((book) => (
                 <div key={book._id} className="product-card">
                   <img src={staticImage} alt={book.title} />
-                  <h3>{book.title}</h3>
-                  <p className="category">Category: {book.category}</p>
-                  <p className="company">Publisher: {book.company}</p>
-                  <p className="price">${book.price}</p>
+                  <div className="product-info">
+                    <h3>{book.title}</h3>
+                    <p className="category">Category: {book.category}</p>
+                    <p className="company">Publisher: {book.company}</p>
+                    <p className="price">${book.price}</p>
+                  </div>
                 </div>
               ))
             ) : (
-              <p>No books found for “{searchQuery}”.</p>
+              <div className="no-results">
+                <p>No books found matching "{searchQuery}"</p>
+                <p>Try searching by title, category, or publisher</p>
+              </div>
             )}
           </div>
 
           {totalPages > 1 && (
             <div className="pagination">
-              <button onClick={handlePrev} disabled={currentPage === 1}>
-                « Prev
+              <button 
+                onClick={handlePrev} 
+                disabled={currentPage === 1}
+                className="pagination-button"
+              >
+                « Previous
               </button>
               {Array.from({ length: totalPages }, (_, i) => (
                 <button
                   key={i + 1}
-                  className={currentPage === i + 1 ? "active" : ""}
+                  className={`pagination-button ${currentPage === i + 1 ? "active" : ""}`}
                   onClick={() => handlePageChange(i + 1)}
                 >
                   {i + 1}
                 </button>
               ))}
-              <button onClick={handleNext} disabled={currentPage === totalPages}>
+              <button 
+                onClick={handleNext} 
+                disabled={currentPage === totalPages}
+                className="pagination-button"
+              >
                 Next »
               </button>
             </div>

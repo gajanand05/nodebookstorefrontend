@@ -7,7 +7,8 @@ import AddProduct from "./AddProduct";
 import Pages from "./Pages";
 import EditBook from "./EditBook";
 import Dashboard from "./Index";
-import ContactList from './ContactList'
+import ContactList from './ContactList';
+import UserList from './UserList';
 
 // import Pages from "./Pages";
 // import Users from "./Users";
@@ -24,9 +25,7 @@ const AdminApp = () => {
           <Route path="/dashboard/edit/:id" element={<EditBook />} />
           <Route path="pages" element={<Pages />} />
           <Route path="contacts" element={<ContactList />} />
-          {/* <Route path="pages" element={<Pages />} />
-          <Route path="users" element={<Users />} />
-          <Route path="orders" element={<Orders />} /> */}
+          <Route path="users" element={<UserList />} />
         </Route>
       </Routes>
     </BrowserRouter>

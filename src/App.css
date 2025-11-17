@@ -61,9 +61,55 @@ body {
 }
 
 .search-input {
-  padding: 6px 10px;
-  border: none;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
   border-radius: 4px;
+  width: 250px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1e3a8a;
+  box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.25);
+  width: 300px;
+}
+
+.search-results-header {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: #e0f2fe;
+  border-radius: 8px;
+}
+
+.search-results-header h2 {
+  color: #1e3a8a;
+  margin-bottom: 5px;
+}
+
+.search-results-header p {
+  color: #4b5563;
+  margin: 0;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  background: #e0f2fe;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.no-results p:first-child {
+  font-size: 1.2em;
+  color: #1e3a8a;
+  margin-bottom: 10px;
+}
+
+.no-results p:last-child {
+  color: #4b5563;
 }
 
 .login-btn {
@@ -72,10 +118,18 @@ body {
   padding: 7px 15px;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .login-btn:hover {
   background: #f59e0b;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #4b5563;
 }
 
 /* Banner */
@@ -113,45 +167,82 @@ body {
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .product-card img {
   width: 100%;
   border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.product-info {
+  text-align: left;
 }
 
 .product-card h3 {
-  margin: 10px 0 5px;
+  margin: 0 0 8px;
+  color: #1e3a8a;
+  font-size: 1.1em;
 }
 
 .category {
-  color: #555;
+  color: #4b5563;
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
+.company {
+  color: #4b5563;
+  font-size: 0.9em;
+  margin: 4px 0;
 }
 
 .price {
   color: #1e3a8a;
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 8px;
+  font-size: 1.2em;
 }
 
 /* Pagination */
 .pagination {
-  margin-top: 25px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
-.pagination a {
+.pagination-button {
   color: #1e3a8a;
-  padding: 8px 12px;
-  text-decoration: none;
+  background: white;
+  padding: 8px 16px;
   border: 1px solid #1e3a8a;
-  margin: 0 3px;
   border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.pagination a.active,
-.pagination a:hover {
+.pagination-button:hover:not(:disabled) {
   background: #1e3a8a;
   color: white;
+}
+
+.pagination-button.active {
+  background: #1e3a8a;
+  color: white;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #ccc;
+  color: #666;
 }
 
 /* Footer */
