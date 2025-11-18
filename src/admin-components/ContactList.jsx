@@ -7,7 +7,7 @@ function ContactList() {
   // Fetch contacts
   const fetchContacts = async () => {
     try {
-      const response = await fetch("http://localhost:3036/api/contact");
+      const response = await fetch("https://bookstore-hai4.onrender.com/api/contact");
       const data = await response.json();
       if (data.success) setContacts(data.data);
     } catch (error) {
